@@ -1,7 +1,8 @@
-import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { User } from './user/entities/user.entity';
+import { User } from './user/user.entity';
+import { Role } from './role/role.entity';
+import { DataSourceOptions } from 'typeorm';
 
-export const config: TypeOrmModuleOptions = {
+export const config: DataSourceOptions = {
   type: 'postgres',
   username: 'postgres',
   password: '1111',
@@ -9,5 +10,5 @@ export const config: TypeOrmModuleOptions = {
   host: 'localhost',
   database: 'mobiland_db',
   synchronize: true,
-  entities: [User],
+  entities: [User, Role],
 };

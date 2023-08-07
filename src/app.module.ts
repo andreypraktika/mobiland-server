@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { UserModule } from './user/user.module';
-import { DataSource } from 'typeorm';
 import { DatabaseModule } from './database/database.module';
+import { AuthModule } from './auth/auth.module';
+import { RoleModule } from './role/role.module';
 
 @Module({
-  imports: [DatabaseModule, UserModule],
+  imports: [DatabaseModule, UserModule, AuthModule, RoleModule],
+  providers: [],
 })
-export class AppModule {
-  constructor(private dataSource: DataSource) {}
-}
+export class AppModule {}

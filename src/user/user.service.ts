@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { User } from '../entities/user.entity';
+import { User } from './user.entity';
 import { DeleteResult, Repository } from 'typeorm';
-import { CreateUserDTO } from '../dto/create-user.dto';
-import { PageOptionsDto } from '../../pagination/dto/page-options.dto';
-import { PageMetaDto } from '../../pagination/dto/page-meta.dto';
-import { PageDto } from '../../pagination/dto/page.dto';
+import { CreateUserDTO } from './dto/create-user.dto';
+import { PageOptionsDto } from '../pagination/dto/page-options.dto';
+import { PageMetaDto } from '../pagination/dto/page-meta.dto';
+import { PageDto } from '../pagination/dto/page.dto';
 
 @Injectable()
 export class UserService {
@@ -35,11 +35,16 @@ export class UserService {
     user.lastName = userDto.lastName;
     user.password = userDto.password;
     user.username = userDto.username;
+    user.role = userDto.role;
     return this.userRepository.save(user);
   }
 
   async deleteUser(userId): Promise<DeleteResult> {
     return await this.userRepository.delete(userId);
+  }
+
+  async findOneWithUserName(username: string) {
+    return await this.userRepository.findOne({ where: { username } });
   }
 
   async findUserById(id: number): Promise<User | undefined> {

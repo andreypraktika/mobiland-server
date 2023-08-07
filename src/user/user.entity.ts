@@ -1,5 +1,6 @@
-import { Column, Entity } from 'typeorm';
-import { BaseEntity } from './index';
+import { Column, Entity, ManyToOne } from 'typeorm';
+import { BaseEntity } from '../base.entity';
+import { Role } from '../role/role.entity';
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -17,4 +18,7 @@ export class User extends BaseEntity {
 
   @Column({ default: true })
   isActive: boolean;
+
+  @ManyToOne(() => Role, (role) => role.users)
+  role: Role;
 }

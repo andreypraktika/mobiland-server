@@ -1,21 +1,11 @@
 import { DataSource } from 'typeorm';
-import { User } from '../user/entities/user.entity';
+import { config } from '../orm.config';
 
 export const databaseProviders = [
   {
     provide: 'DATA_SOURCE',
     useFactory: async () => {
-      const dataSource = new DataSource({
-        type: 'postgres',
-        host: 'localhost',
-        port: 5433,
-        username: 'postgres',
-        password: '1111',
-        database: 'mobiland_db',
-        entities: [User],
-        synchronize: true,
-      });
-
+      const dataSource = new DataSource(config);
       return dataSource.initialize();
     },
   },
