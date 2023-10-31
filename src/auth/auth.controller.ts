@@ -11,7 +11,7 @@ import { ApiTags } from '@nestjs/swagger';
 import * as bcrypt from 'bcrypt';
 import { UserService } from '../user/user.service';
 import { User } from '../user/user.entity';
-import { CreateUserDTO } from '../user/dto/create-user.dto';
+import { CreateUserDto } from '../user/dto/CreateUser.dto';
 import { LoginDto } from './dto/login.dto';
 import { RoleService } from '../role/role.service';
 
@@ -26,7 +26,7 @@ export class AuthController {
 
   @Post('/signup')
   async createUser(
-    @Body() { username, password, firstName, lastName }: CreateUserDTO,
+    @Body() { username, password, firstName, lastName }: CreateUserDto,
   ): Promise<User> {
     const defaultRole = await this.roleService.findOneByName('user');
 

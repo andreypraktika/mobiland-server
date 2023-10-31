@@ -6,6 +6,5 @@ import { RoleModule } from './role/role.module';
 
 @Module({
   imports: [DatabaseModule, UserModule, AuthModule, RoleModule],
-  providers: [],
 })
 export class AppModule {}

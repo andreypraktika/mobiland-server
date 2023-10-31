@@ -1,20 +1,21 @@
 import { Module } from '@nestjs/common';
 import { RoleController } from './role.controller';
-import { DatabaseModule } from '../database/database.module';
 import { RoleService } from './role.service';
-import { DataSource } from 'typeorm';
-import { Role } from './role.entity';
+import { DatabaseModule } from '../database/database.module';
+import { RoleRepository } from './providers/RoleRepository.provider';
+import { JwtModule } from '@nestjs/jwt';
+import { jwtConstants } from '../constants';
 
 @Module({
-  imports: [DatabaseModule],
-  providers: [
-    RoleService,
-    {
-      provide: 'ROLE_REPOSITORY',
-      useFactory: (dataSource: DataSource) => dataSource.getRepository(Role),
-      inject: ['DATA_SOURCE'],
-    },
+  imports: [
+    DatabaseModule,
+    JwtModule.register({
+      global: true,
+      secret: jwtConstants.secret,
+      signOptions: { expiresIn: '3060s' },
+    }),
   ],
+  providers: [RoleService, RoleRepository],
   controllers: [RoleController],
   exports: [RoleService],
 })

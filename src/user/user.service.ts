@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { User } from './user.entity';
 import { DeleteResult, Repository } from 'typeorm';
-import { CreateUserDTO } from './dto/create-user.dto';
+import { CreateUserDto } from './dto/CreateUser.dto';
 import { PageOptionsDto } from '../pagination/dto/page-options.dto';
 import { PageMetaDto } from '../pagination/dto/page-meta.dto';
 import { PageDto } from '../pagination/dto/page.dto';
@@ -9,7 +9,7 @@ import { PageDto } from '../pagination/dto/page.dto';
 @Injectable()
 export class UserService {
   constructor(
-    @Inject('USER_REPOSITORY')
+    @Inject('UserRepository')
     private userRepository: Repository<User>,
   ) {}
 
@@ -29,7 +29,7 @@ export class UserService {
     return new PageDto(entities, pageMetaDto);
   }
 
-  async createUser(userDto: CreateUserDTO): Promise<User> {
+  async createUser(userDto: CreateUserDto): Promise<User> {
     const user = new User();
     user.firstName = userDto.firstName;
     user.lastName = userDto.lastName;
@@ -39,7 +39,7 @@ export class UserService {
     return this.userRepository.save(user);
   }
 
-  async deleteUser(userId): Promise<DeleteResult> {
+  async deleteUser(userId: number): Promise<DeleteResult> {
     return await this.userRepository.delete(userId);
   }
 
@@ -47,11 +47,10 @@ export class UserService {
     return await this.userRepository.findOne({ where: { username } });
   }
 
-  async findUserById(id: number): Promise<User | undefined> {
-    const user = await this.userRepository
+  async findUserById(id: number): Promise<User | null> {
+    return await this.userRepository
       .createQueryBuilder('user')
       .where('user.id = :id', { id })
       .getOne();
-    return user;
   }
 }
